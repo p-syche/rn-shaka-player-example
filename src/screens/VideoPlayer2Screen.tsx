@@ -33,22 +33,22 @@ const VideoPlayer2Screen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView className="flex-1 bg-black">
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
       
       {/* Header */}
-      <View style={styles.header}>
+      <View className="bg-gray-900 px-4 py-3 flex-row items-center">
         <TouchableOpacity
           onPress={() => navigation.goBack()}
-          style={styles.backButton}
+          className="mr-4"
         >
-          <Text style={styles.backText}>← Back</Text>
+          <Text className="text-white text-lg">← Back</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>M3U8 Stream Player</Text>
+        <Text className="text-white text-lg font-semibold">M3U8 Stream Player</Text>
       </View>
 
       {/* Video Player */}
-      <View style={styles.videoContainer}>
+      <View className="flex-1 bg-black justify-center">
         <Video
           ref={videoRef}
           source={{uri: videoUrl}}
@@ -63,31 +63,31 @@ const VideoPlayer2Screen: React.FC = () => {
       </View>
 
       {/* Custom Controls */}
-      <View style={styles.controlsContainer}>
-        <View style={styles.buttonRow}>
+      <View className="bg-gray-900 p-4">
+        <View className="flex-row justify-center space-x-4">
           <TouchableOpacity
             onPress={togglePlayPause}
-            style={[styles.controlButton, styles.playButton]}
+            className="bg-green-500 px-6 py-3 rounded-lg"
           >
-            <Text style={styles.controlButtonText}>
+            <Text className="text-white font-semibold">
               {isPlaying ? 'Pause' : 'Play'}
             </Text>
           </TouchableOpacity>
           
           <TouchableOpacity
             onPress={() => setShowControls(!showControls)}
-            style={[styles.controlButton, styles.toggleButton]}
+            className="bg-gray-600 px-6 py-3 rounded-lg"
           >
-            <Text style={styles.controlButtonText}>
+            <Text className="text-white font-semibold">
               {showControls ? 'Hide Controls' : 'Show Controls'}
             </Text>
           </TouchableOpacity>
         </View>
         
-        <Text style={styles.videoInfo}>
+        <Text className="text-gray-300 text-center mt-4 text-sm">
           Streaming: Apple Test Stream (HLS/M3U8)
         </Text>
-        <Text style={styles.videoSubInfo}>
+        <Text className="text-gray-400 text-center mt-2 text-xs">
           Adaptive streaming with multiple bitrates
         </Text>
       </View>
@@ -96,73 +96,9 @@ const VideoPlayer2Screen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000000',
-  },
-  header: {
-    backgroundColor: '#111827',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  backButton: {
-    marginRight: 16,
-  },
-  backText: {
-    color: 'white',
-    fontSize: 18,
-  },
-  headerTitle: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  videoContainer: {
-    flex: 1,
-    backgroundColor: '#000000',
-    justifyContent: 'center',
-  },
   video: {
     width: '100%',
     height: 250,
-  },
-  controlsContainer: {
-    backgroundColor: '#111827',
-    padding: 16,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 16,
-  },
-  controlButton: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
-  },
-  playButton: {
-    backgroundColor: '#10b981',
-  },
-  toggleButton: {
-    backgroundColor: '#6b7280',
-  },
-  controlButtonText: {
-    color: 'white',
-    fontWeight: '600',
-  },
-  videoInfo: {
-    color: '#d1d5db',
-    textAlign: 'center',
-    marginTop: 16,
-    fontSize: 14,
-  },
-  videoSubInfo: {
-    color: '#9ca3af',
-    textAlign: 'center',
-    marginTop: 8,
-    fontSize: 12,
   },
 });
 
