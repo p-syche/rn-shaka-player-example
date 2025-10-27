@@ -7,7 +7,7 @@ export const SimpleVideoScreen = () => {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Video
         source={{
-          uri: 'https://www.w3schools.com/html/mov_bbb.mp4',
+          uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
           drm: {
             type: DRMType.WIDEVINE,
             licenseServer: 'https://license.example.com/widevine',

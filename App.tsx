@@ -10,10 +10,12 @@ import {
 } from '@react-navigation/native-stack';
 import { SimpleVideoScreen } from './src/SimpleVideoScreen';
 import { ShakaPlayerScreen } from './src/ShakaPlayerScreen';
+import { SimpleVideoScreenWithSlider } from './src/SimpleVideoScreenWithSlider';
 
 type RootStackParamList = {
   Home: undefined;
   SimpleVideoScreen: undefined;
+  SimpleVideoScreenWithSlider: undefined;
   ShakaPlayerScreen: undefined;
 };
 
@@ -25,6 +27,9 @@ function HomeScreen() {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Pressable style={styles.pressable} onPress={() => navigation.navigate('SimpleVideoScreen')}>
         <Text>Simple Video Screen</Text>
+      </Pressable>
+      <Pressable style={styles.pressable} onPress={() => navigation.navigate('SimpleVideoScreenWithSlider')}>
+        <Text>Simple Video with custom slider</Text>
       </Pressable>
       <Pressable style={styles.pressable} onPress={() => navigation.navigate('ShakaPlayerScreen')}>
         <Text>Shaka Player Screen</Text>
@@ -50,6 +55,7 @@ const RootStack = createNativeStackNavigator({
   screens: {
     Home: HomeScreen,
     SimpleVideoScreen: SimpleVideoScreen,
+    SimpleVideoScreenWithSlider: SimpleVideoScreenWithSlider,
     ShakaPlayerScreen: ShakaPlayerScreen,
   },
 });
