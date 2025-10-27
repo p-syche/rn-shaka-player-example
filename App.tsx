@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import {
   createStaticNavigation,
   useNavigation,
@@ -23,18 +23,28 @@ function HomeScreen() {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Pressable onPress={() => navigation.navigate('SimpleVideoScreen')}>
+      <Pressable style={styles.pressable} onPress={() => navigation.navigate('SimpleVideoScreen')}>
         <Text>Simple Video Screen</Text>
       </Pressable>
-      <Pressable onPress={() => navigation.navigate('ShakaPlayerScreen')}>
+      <Pressable style={styles.pressable} onPress={() => navigation.navigate('ShakaPlayerScreen')}>
         <Text>Shaka Player Screen</Text>
       </Pressable>
-      <Pressable onPress={() => console.log('hello button 3')}>
+      <Pressable style={styles.pressable} onPress={() => console.log('hello button 3')}>
         <Text>will be button 3</Text>
       </Pressable>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  pressable: {
+    padding: 8,
+    borderWidth: 2,
+    borderRadius: 10,
+    borderColor: "lightblue",
+    margin: 10
+  },
+});
 
 const RootStack = createNativeStackNavigator({
   screens: {
