@@ -1,32 +1,30 @@
 export const colors = {
   background: {
-    primary: '#1a0b2e',      // Deep dark purple background
-    secondary: '#2d1b4e',    // Slightly lighter purple for cards/sections
-    overlay: 'rgba(26, 11, 46, 0.9)',  // Semi-transparent overlay
+    primary: '#1a0b2e',
+    secondary: '#2d1b4e',
+    overlay: 'rgba(26, 11, 46, 0.9)',
   },
   
   purple: {
-    vibrant: '#7c3aed',      // Vibrant purple for borders and accents
-    light: '#a78bfa',        // Lighter purple for hover states
-    dark: '#5b21b6',         // Darker purple for pressed states
+    vibrant: '#7c3aed',
+    light: '#a78bfa',
+    dark: '#5b21b6',
   },
   
   text: {
-    primary: '#ffffff',      // White text
-    secondary: '#cbd5e1',    // Light gray for secondary text
-    muted: '#94a3b8',        // Muted gray for less important text
+    primary: '#ffffff',
+    secondary: '#cbd5e1',
+    muted: '#94a3b8',
   },
   
   border: {
-    primary: '#7c3aed',      // Vibrant purple border
-    secondary: '#a78bfa',    // Lighter purple border
+    primary: '#7c3aed',
+    secondary: '#a78bfa',
   },
   
-  // Progress and interactive elements
-  accent: '#7c3aed',         // Main accent color
-  progress: '#7c3aed',       // Progress bar color
+  accent: '#7c3aed',
+  progress: '#7c3aed',
   
-  // States
   success: '#10b981',
   error: '#ef4444',
   warning: '#f59e0b',

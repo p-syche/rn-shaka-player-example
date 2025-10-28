@@ -1,13 +1,7 @@
-/**
- * Common video controls styling for consistent look across all video screens
- * Based on Callstack.com theme with dark purple background and vibrant purple accents
- */
-
 import { StyleSheet } from 'react-native';
 import { colors, spacing, borderRadius, typography } from './theme';
 
 export const videoControlStyles = StyleSheet.create({
-  // Container styles
   container: {
     flex: 1,
     backgroundColor: colors.background.primary,
@@ -24,7 +18,6 @@ export const videoControlStyles = StyleSheet.create({
     height: '100%',
   },
   
-  // Overlay styles
   touchOverlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'transparent',
@@ -46,7 +39,7 @@ export const videoControlStyles = StyleSheet.create({
   
   errorOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(239, 68, 68, 0.9)', // error color with opacity
+    backgroundColor: 'rgba(239, 68, 68, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
     padding: spacing.xxl,
@@ -59,7 +52,6 @@ export const videoControlStyles = StyleSheet.create({
     fontWeight: typography.fontWeight.medium,
   },
   
-  // Controls container
   controls: {
     position: 'absolute',
     bottom: 0,
@@ -81,7 +73,6 @@ export const videoControlStyles = StyleSheet.create({
     right: 0,
   },
   
-  // Progress bar styles
   progressContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -102,7 +93,6 @@ export const videoControlStyles = StyleSheet.create({
     backgroundColor: colors.purple.vibrant,
   },
   
-  // Time display
   timeText: {
     color: colors.text.primary,
     fontSize: typography.fontSize.md,
@@ -120,14 +110,12 @@ export const videoControlStyles = StyleSheet.create({
     marginLeft: spacing.sm,
   },
   
-  // Button container
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   
-  // Button styles with vibrant purple border
   button: {
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.md,
@@ -144,7 +132,6 @@ export const videoControlStyles = StyleSheet.create({
     fontWeight: typography.fontWeight.semibold,
   },
   
-  // Play button - larger and more prominent
   playButton: {
     width: 80,
     height: 80,
@@ -179,14 +166,12 @@ export const videoControlStyles = StyleSheet.create({
     color: colors.text.primary,
   },
   
-  // Slider styles
   slider: {
     flex: 1,
     height: 40,
     marginLeft: spacing.md,
   },
   
-  // Info/Title section
   info: {
     position: 'absolute',
     top: spacing.xxl,
@@ -212,7 +197,6 @@ export const videoControlStyles = StyleSheet.create({
     lineHeight: 24,
   },
   
-  // Video container
   videoContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -225,7 +209,6 @@ export const videoControlStyles = StyleSheet.create({
   },
 });
 
-// Slider theme colors to be used with @react-native-community/slider
 export const sliderColors = {
   minimumTrackTintColor: colors.purple.vibrant,
   maximumTrackTintColor: colors.background.secondary,

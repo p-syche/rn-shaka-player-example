@@ -16,15 +16,12 @@ export const ShakaPlayerScreen = () => {
   const controlsTimeoutRef = React.useRef<number | null>(null);
 
   const resetControlsTimeout = React.useCallback(() => {
-    // Clear existing timeout
     if (controlsTimeoutRef.current) {
       clearTimeout(controlsTimeoutRef.current);
     }
 
-    // Show controls
     setShowControls(true);
 
-    // Hide controls after 6 seconds if playing
     if (!paused) {
       controlsTimeoutRef.current = setTimeout(() => {
         setShowControls(false);
@@ -32,7 +29,6 @@ export const ShakaPlayerScreen = () => {
     }
   }, [paused]);
 
-  // Show controls when paused or when user interacts
   React.useEffect(() => {
     if (paused) {
       setShowControls(true);
@@ -40,12 +36,10 @@ export const ShakaPlayerScreen = () => {
         clearTimeout(controlsTimeoutRef.current);
       }
     } else {
-      // Reset timeout when playback starts
       resetControlsTimeout();
     }
   }, [paused, resetControlsTimeout]);
 
-  // Cleanup timeout on unmount
   React.useEffect(() => {
     return () => {
       if (controlsTimeoutRef.current) {
@@ -92,7 +86,7 @@ export const ShakaPlayerScreen = () => {
           paused={paused}
           onReady={() => {
             console.log('Player ready');
-            setIsBuffering(false); // Explicitly clear buffering on ready
+            setIsBuffering(false);
           }}
           onPlay={() => console.log('Playing')}
           onPause={() => console.log('Paused')}
@@ -108,7 +102,6 @@ export const ShakaPlayerScreen = () => {
           }}
         />
         
-        {/* Touchable overlay to show controls on tap */}
         <TouchableOpacity 
           style={videoControlStyles.touchOverlay} 
           activeOpacity={1}

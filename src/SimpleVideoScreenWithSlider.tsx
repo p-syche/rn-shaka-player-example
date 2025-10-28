@@ -28,7 +28,7 @@ export const SimpleVideoScreenWithSlider = () => {
 
   const onLoad = (data: OnLoadData) => {
     setDuration(data.duration);
-    setIsPlaying(true); // Auto-start playing
+    setIsPlaying(true);
   };
 
   const onSliderValueChange = (value: number) => {
@@ -77,16 +77,13 @@ export const SimpleVideoScreenWithSlider = () => {
         />
       </View>
       
-      {/* Custom Controls Container */}
       <View style={videoControlStyles.controlsContainer}>
-        {/* Play/Pause Button */}
         <TouchableOpacity style={videoControlStyles.playButtonSmall} onPress={togglePlayPause}>
           <Text style={videoControlStyles.playButtonTextSmall}>
             {isPlaying ? '❚❚' : '▶'}
           </Text>
         </TouchableOpacity>
         
-        {/* Video Slider */}
         <Slider
           style={videoControlStyles.slider}
           minimumValue={0}
@@ -101,7 +98,6 @@ export const SimpleVideoScreenWithSlider = () => {
           step={0.01}
         />
         
-        {/* Video Progress Indicator */}
         <Text style={videoControlStyles.timeTextSmall}>
           {formatTime(currentTime)} / {formatTime(duration)}
         </Text>
