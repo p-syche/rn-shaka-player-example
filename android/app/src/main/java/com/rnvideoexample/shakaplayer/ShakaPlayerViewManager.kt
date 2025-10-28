@@ -61,6 +61,12 @@ class ShakaPlayerViewManager(
             .build()
     }
 
+    @ReactProp(name = "showNativeControls", defaultBoolean = false)
+    fun setShowNativeControls(view: ShakaPlayerView, show: Boolean) {
+        view.setShowNativeControls(show)
+        android.util.Log.d("ShakaPlayerViewManager", "setShowNativeControls called with: $show")
+    }
+
     companion object {
         private const val REACT_CLASS = "ShakaPlayerView"
     }

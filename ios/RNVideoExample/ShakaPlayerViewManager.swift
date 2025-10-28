@@ -9,6 +9,7 @@ class ShakaPlayerView: UIView {
     private var statusObserver: NSKeyValueObservation?
     private var rateObserver: NSKeyValueObservation?
     private var bufferObserver: NSKeyValueObservation?
+    private var showNativeControls: Bool = false
     
     @objc var onReady: RCTDirectEventBlock?
     @objc var onPlay: RCTDirectEventBlock?
@@ -20,6 +21,14 @@ class ShakaPlayerView: UIView {
     
     var viewId: Int = 0
     private weak var playerModule: ShakaPlayerModule?
+    
+    @objc func setShowNativeControls(_ show: Bool) {
+        showNativeControls = show
+        // Note: AVPlayerLayer doesn't have built-in controls
+        // For true native iOS controls, would need to use AVPlayerViewController
+        // For now, this is a no-op on iOS - custom controls will be hidden via JS
+        print("ShakaPlayerView: showNativeControls set to \(show) (iOS native controls require AVPlayerViewController)")
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

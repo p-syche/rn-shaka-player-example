@@ -37,5 +37,6 @@ RCT_EXPORT_VIEW_PROPERTY(onBuffer, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onError, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onProgress, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onEnd, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(showNativeControls, BOOL)
 
 @end

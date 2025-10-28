@@ -26,6 +26,7 @@ class ShakaPlayerView @JvmOverloads constructor(
     private val handler = Handler(Looper.getMainLooper())
     
     var viewId: Int = 0
+    private var showNativeControls: Boolean = true // TEMPORARY: Default to true for testing
 
     init {
         playerView = PlayerView(context)
@@ -33,11 +34,32 @@ class ShakaPlayerView @JvmOverloads constructor(
             LayoutParams.MATCH_PARENT,
             LayoutParams.MATCH_PARENT
         )
-        playerView.useController = false // Disable ExoPlayer's default controls, we have our own UI
+        playerView.useController = true // TEMPORARY: Always show for testing
+        playerView.controllerShowTimeoutMs = 0 // Keep visible
+        playerView.controllerHideOnTouch = false // Don't hide on touch
         addView(playerView)
         
         // Set background to see the view bounds
         setBackgroundColor(android.graphics.Color.BLACK)
+        
+        android.util.Log.d("ShakaPlayerView", "INIT: useController = true (hardcoded for testing)")
+    }
+    
+    fun setShowNativeControls(show: Boolean) {
+        android.util.Log.d("ShakaPlayerView", "setShowNativeControls called: $show (current: $showNativeControls)")
+        showNativeControls = show
+        playerView.useController = show
+        
+        if (show) {
+            // Ensure controller is visible and properly configured for TV
+            playerView.controllerShowTimeoutMs = 0 // Keep controls visible (0 = infinite)
+            playerView.controllerHideOnTouch = false // Don't hide on touch for TV
+            playerView.showController() // Force show the controller
+            android.util.Log.d("ShakaPlayerView", "Native controls ENABLED - useController: ${playerView.useController}, player: ${playerView.player != null}")
+        } else {
+            playerView.hideController()
+            android.util.Log.d("ShakaPlayerView", "Native controls DISABLED")
+        }
     }
     
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
@@ -54,7 +76,13 @@ class ShakaPlayerView @JvmOverloads constructor(
         exoPlayer.addListener(playerListener)
         startProgressUpdates()
         
-        android.util.Log.d("ShakaPlayerView", "Player set, view size: ${width}x${height}")
+        // If native controls are enabled, ensure they're shown after player is set
+        if (showNativeControls) {
+            playerView.showController()
+            android.util.Log.d("ShakaPlayerView", "Player set with native controls enabled - showing controller")
+        }
+        
+        android.util.Log.d("ShakaPlayerView", "Player set, view size: ${width}x${height}, useController: ${playerView.useController}")
     }
     
     fun getPlayer(): ExoPlayer? {
@@ -72,6 +100,12 @@ class ShakaPlayerView @JvmOverloads constructor(
                     sendEvent("onBuffer", Arguments.createMap().apply {
                         putBoolean("isBuffering", false)
                     })
+                    
+                    // Ensure native controls are shown if enabled
+                    if (showNativeControls) {
+                        playerView.showController()
+                        android.util.Log.d("ShakaPlayerView", "STATE_READY: Showing native controls")
+                    }
                 }
                 Player.STATE_BUFFERING -> {
                     sendEvent("onBuffer", Arguments.createMap().apply {
@@ -91,7 +125,6 @@ class ShakaPlayerView @JvmOverloads constructor(
             } else {
                 sendEvent("onPause", Arguments.createMap())
             }
-        }
         }
 
         override fun onPlayerError(error: PlaybackException) {

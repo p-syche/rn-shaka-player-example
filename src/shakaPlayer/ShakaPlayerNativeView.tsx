@@ -9,6 +9,7 @@ export interface ShakaPlayerViewProps extends ViewProps {
   onError?: (event: { nativeEvent: { error: string } }) => void;
   onProgress?: (event: { nativeEvent: { currentTime: number; duration: number } }) => void;
   onEnd?: (event: { nativeEvent: {} }) => void;
+  showNativeControls?: boolean;
 }
 
 const ComponentName = 'ShakaPlayerView';

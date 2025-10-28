@@ -27,6 +27,7 @@ export interface ShakaPlayerProps {
   onEnd?: () => void;
   paused?: boolean;
   volume?: number;
+  showNativeControls?: boolean; // NEW: Toggle native platform controls
 }
 
 export const ShakaPlayer = React.forwardRef<ShakaPlayerControls, ShakaPlayerProps>(
@@ -43,6 +44,7 @@ export const ShakaPlayer = React.forwardRef<ShakaPlayerControls, ShakaPlayerProp
       onEnd,
       paused = false,
       volume = 1.0,
+      showNativeControls = false,
     },
     ref
   ) => {
@@ -219,6 +221,7 @@ export const ShakaPlayer = React.forwardRef<ShakaPlayerControls, ShakaPlayerProp
         onError={handleError}
         onProgress={handleProgress}
         onEnd={handleEnd}
+        showNativeControls={showNativeControls}
       />
     );
   }

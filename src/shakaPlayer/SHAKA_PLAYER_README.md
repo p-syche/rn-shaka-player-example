@@ -33,6 +33,8 @@ This is a native video player implementation for React Native using:
 - Play/Pause
 - Seek (forward/backward)
 - Volume control
+- Auto-hiding controls (6-second timeout)
+- Touch-to-show controls
 
 ✅ **Events**
 - onReady - Fired when video is ready to play
@@ -50,92 +52,12 @@ This is a native video player implementation for React Native using:
 - Buffering state
 - Error handling
 
-## Usage
-
-```tsx
-import { ShakaPlayer } from './shakaPlayer';
-
-function VideoScreen() {
-  const playerRef = useRef<ShakaPlayerControls>(null);
-  const [paused, setPaused] = useState(false);
-
-  return (
-    <ShakaPlayer
-      ref={playerRef}
-      source={{ uri: 'http://example.com/video.mp4' }}
-      style={{ width: '100%', height: 300 }}
-      paused={paused}
-      volume={1.0}
-      onReady={() => console.log('Ready')}
-      onPlay={() => console.log('Playing')}
-      onPause={() => console.log('Paused')}
-      onBuffer={(isBuffering) => console.log('Buffering:', isBuffering)}
-      onError={(error) => console.error('Error:', error)}
-      onProgress={({ currentTime, duration }) => {
-        console.log(`${currentTime}s / ${duration}s`);
-      }}
-      onEnd={() => console.log('Ended')}
-    />
-  );
-}
-```
-
-## Player Controls API
-
-```typescript
-interface ShakaPlayerControls {
-  play: () => void;
-  pause: () => void;
-  seekTo: (position: number) => void;
-  setVolume: (volume: number) => void;
-  getCurrentPosition: () => Promise<number>;
-  getDuration: () => Promise<number>;
-  getIsPlaying: () => Promise<boolean>;
-  loadVideo: (url: string) => void;
-}
-```
-
-## Build Instructions
-
-### iOS
-
-1. Navigate to the iOS directory:
-   ```bash
-   cd ios
-   ```
-
-2. Install CocoaPods dependencies:
-   ```bash
-   pod install
-   ```
-
-3. Open the workspace in Xcode:
-   ```bash
-   open RNVideoExample.xcworkspace
-   ```
-
-4. Ensure the Swift bridging header is configured in Build Settings:
-   - Objective-C Bridging Header: `RNVideoExample/ShakaPlayer-Bridging-Header.h`
-
-5. Build and run from Xcode or:
-   ```bash
-   npm run ios
-   ```
-
-### Android
-
-1. The ExoPlayer dependencies are already added to `android/app/build.gradle`:
-   ```gradle
-   implementation("androidx.media3:media3-exoplayer:1.2.0")
-   implementation("androidx.media3:media3-ui:1.2.0")
-   implementation("androidx.media3:media3-exoplayer-dash:1.2.0")
-   implementation("androidx.media3:media3-exoplayer-hls:1.2.0")
-   ```
-
-2. Build and run:
-   ```bash
-   npm run android
-   ```
+✅ **UI/UX Features**
+- TV-optimized layout with overlay controls
+- Auto-hiding controls after 6 seconds of playback
+- Touch anywhere on video to show controls
+- Full-screen video display
+- Custom React Native controls (not native player controls)
 
 ## Supported Video Formats
 
@@ -151,40 +73,76 @@ interface ShakaPlayerControls {
 - WebM
 - And many more via Media3
 
-## Dependencies
 
-### Android
-- `androidx.media3:media3-exoplayer:1.2.0`
-- `androidx.media3:media3-ui:1.2.0`
-- `androidx.media3:media3-exoplayer-dash:1.2.0`
-- `androidx.media3:media3-exoplayer-hls:1.2.0`
+# Native vs Custom Controls
 
-### iOS
-- AVFoundation (built-in)
-- AVKit (built-in)
+This project supports **both** native platform controls and custom React Native controls for the video player.
 
-## Known Limitations
+## Two Implementations Available
 
-1. **iOS Bridging Header**: Make sure to configure the Swift bridging header in Xcode project settings
-2. **Android Permissions**: Internet permission is required in AndroidManifest.xml (should already be present)
-3. **HTTPS**: On iOS, App Transport Security may require HTTPS URLs or specific exceptions
+### 1. **ShakaPlayerScreen** - Custom React Native Controls ✨
+**File**: `src/ShakaPlayerScreen.tsx`
 
-## Testing
+**Features**:
+- ✅ Custom UI built entirely in React Native
+- ✅ Auto-hiding controls (6-second timeout)
+- ✅ Touch-to-show controls
+- ✅ TV-optimized overlay layout
+- ✅ Consistent cross-platform experience
+- ✅ Full customization control
+- ✅ Large touch targets for TV
+- ✅ Progress bar with time display
+- ✅ Seek ±10s buttons
 
-The implementation includes a test screen at `src/ShakaPlayerScreen.tsx` with:
-- Full playback controls (play/pause, seek)
-- Progress bar
-- Buffering indicator
-- Error display
-- Sample video: Tears of Steel
+### 2. **ShakaPlayerNativeVideoScreen** - Native Platform Controls 🎯
+**File**: `src/ShakaPlayerNativeVideoScreen.tsx`
 
-## Future Enhancements
+**Features**:
+- ✅ Android: ExoPlayer's built-in controller
+- ⚠️ iOS: Basic playback (AVPlayerLayer has no built-in controls)
+- ✅ Minimal code (just the player component)
+- ✅ Platform-native gestures and behaviors
+- ✅ Accessibility built-in (on Android)
 
-Potential improvements:
-- [ ] Picture-in-Picture support
-- [ ] Playback speed control
-- [ ] Subtitle/caption support
-- [ ] Quality selection for adaptive streaming
-- [ ] Casting support (Chromecast/AirPlay)
-- [ ] DRM support
-- [ ] Offline playback
+## Implementation Details
+
+### How to Toggle Between Modes
+
+The `ShakaPlayer` component accepts a `showNativeControls` prop:
+
+```tsx
+// Custom Controls (default)
+<ShakaPlayer
+  source={{ uri: videoUrl }}
+  showNativeControls={false} // or omit (defaults to false)
+/>
+
+// Native Controls
+<ShakaPlayer
+  source={{ uri: videoUrl }}
+  showNativeControls={true}
+/>
+```
+
+### Android Implementation
+
+**Native Controls** (`showNativeControls={true}`):
+```kotlin
+// In ShakaPlayerView.kt
+playerView.useController = true  // Shows ExoPlayer's built-in controls
+```
+
+**Custom Controls** (`showNativeControls={false}`):
+```kotlin
+playerView.useController = false  // Hides ExoPlayer's controls
+```
+
+### iOS Implementation
+
+**Native Controls** (`showNativeControls={true}`):
+- Currently uses `AVPlayerLayer` which doesn't have built-in controls
+- For true iOS native controls, would require refactoring to use `AVPlayerViewController`
+- Logged as a note in the code
+
+**Custom Controls** (`showNativeControls={false}`):
+- Uses `AVPlayerLayer` with custom React Native UI overlay
