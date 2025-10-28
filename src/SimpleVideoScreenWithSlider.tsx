@@ -1,9 +1,9 @@
 import {useRef, useState} from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Video, { DRMType, OnProgressData, OnLoadData, VideoRef } from 'react-native-video';
 import Slider from '@react-native-community/slider';
+import { videoControlStyles, sliderColors } from './styles/videoControls';
 
-// Helper function to format time in MM:SS format
 const formatTime = (timeInSeconds: number): string => {
   if (isNaN(timeInSeconds) || timeInSeconds < 0) return '00:00';
   
@@ -61,14 +61,14 @@ export const SimpleVideoScreenWithSlider = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.videoContainer}>
+    <View style={videoControlStyles.container}>
+      <View style={videoControlStyles.videoContainer}>
         <Video
           ref={videoRef}
           source={{
             uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4',
           }}
-          style={styles.video}
+          style={videoControlStyles.video}
           controls={false}
           paused={!isPlaying}
           onProgress={onProgress}
@@ -78,86 +78,34 @@ export const SimpleVideoScreenWithSlider = () => {
       </View>
       
       {/* Custom Controls Container */}
-      <View style={styles.controlsContainer}>
+      <View style={videoControlStyles.controlsContainer}>
         {/* Play/Pause Button */}
-        <TouchableOpacity style={styles.playButton} onPress={togglePlayPause}>
-          <Text style={styles.playButtonText}>
-            {isPlaying ? '⏸️' : '▶️'}
+        <TouchableOpacity style={videoControlStyles.playButtonSmall} onPress={togglePlayPause}>
+          <Text style={videoControlStyles.playButtonTextSmall}>
+            {isPlaying ? '❚❚' : '▶'}
           </Text>
         </TouchableOpacity>
         
         {/* Video Slider */}
         <Slider
-          style={styles.slider}
+          style={videoControlStyles.slider}
           minimumValue={0}
           maximumValue={1}
           value={duration > 0 ? currentTime / duration : 0}
           onValueChange={onSliderValueChange}
           onSlidingStart={onSlidingStart}
           onSlidingComplete={onSlidingComplete}
-          minimumTrackTintColor="#1976D2"
-          maximumTrackTintColor="#666666"
-          thumbTintColor="#1976D2"
+          minimumTrackTintColor={sliderColors.minimumTrackTintColor}
+          maximumTrackTintColor={sliderColors.maximumTrackTintColor}
+          thumbTintColor={sliderColors.thumbTintColor}
           step={0.01}
         />
         
         {/* Video Progress Indicator */}
-        <Text style={styles.timeText}>
+        <Text style={videoControlStyles.timeTextSmall}>
           {formatTime(currentTime)} / {formatTime(duration)}
         </Text>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
-  videoContainer: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  video: {
-    width: '100%',
-    aspectRatio: 16 / 9,
-  },
-  controlsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 15,
-    paddingBottom: 25,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  playButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 25,
-    width: 50,
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 15,
-  },
-  playButtonText: {
-    fontSize: 20,
-    color: '#fff',
-  },
-  timeText: {
-    fontSize: 12,
-    color: '#fff',
-    fontWeight: '500',
-    minWidth: 80,
-    textAlign: 'center',
-    marginLeft: 10,
-  },
-  slider: {
-    flex: 1,
-    height: 40,
-    marginLeft: 15,
-  },
-});

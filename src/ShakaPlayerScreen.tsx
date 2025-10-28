@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { ShakaPlayer } from './shakaPlayer';
 import type { ShakaPlayerControls } from './shakaPlayer';
+import { videoControlStyles } from './styles/videoControls';
 
 const VIDEO_URL = 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4';
 
@@ -82,12 +83,12 @@ export const ShakaPlayerScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.playerContainer}>
+    <View style={videoControlStyles.container}>
+      <View style={videoControlStyles.playerContainer}>
         <ShakaPlayer
           ref={playerRef}
           source={{ uri: VIDEO_URL }}
-          style={styles.player}
+          style={videoControlStyles.player}
           paused={paused}
           onReady={() => {
             console.log('Player ready');
@@ -109,60 +110,60 @@ export const ShakaPlayerScreen = () => {
         
         {/* Touchable overlay to show controls on tap */}
         <TouchableOpacity 
-          style={styles.touchOverlay} 
+          style={videoControlStyles.touchOverlay} 
           activeOpacity={1}
           onPress={resetControlsTimeout}
         />
         
         {isBuffering && (
-          <View style={styles.loadingOverlay}>
+          <View style={videoControlStyles.loadingOverlay}>
             <ActivityIndicator size="large" color="#fff" />
-            <Text style={styles.loadingText}>Buffering...</Text>
+            <Text style={videoControlStyles.loadingText}>Buffering...</Text>
           </View>
         )}
 
         {error && (
-          <View style={styles.errorOverlay}>
-            <Text style={styles.errorText}>Error: {error}</Text>
+          <View style={videoControlStyles.errorOverlay}>
+            <Text style={videoControlStyles.errorText}>Error: {error}</Text>
           </View>
         )}
       </View>
 
       {showControls && (
-        <View style={styles.controls}>
-          <View style={styles.progressContainer}>
-            <Text style={styles.timeText}>{formatTime(progress.currentTime)}</Text>
-            <View style={styles.progressBar}>
+        <View style={videoControlStyles.controls}>
+          <View style={videoControlStyles.progressContainer}>
+            <Text style={videoControlStyles.timeText}>{formatTime(progress.currentTime)}</Text>
+            <View style={videoControlStyles.progressBar}>
               <View 
                 style={[
-                  styles.progressFill, 
+                  videoControlStyles.progressFill, 
                   { width: `${(progress.currentTime / progress.duration) * 100}%` }
                 ]} 
               />
             </View>
-            <Text style={styles.timeText}>{formatTime(progress.duration)}</Text>
+            <Text style={videoControlStyles.timeText}>{formatTime(progress.duration)}</Text>
           </View>
 
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleSeekBackward}>
-              <Text style={styles.buttonText}>-10s</Text>
+          <View style={videoControlStyles.buttonContainer}>
+            <TouchableOpacity style={videoControlStyles.button} onPress={handleSeekBackward}>
+              <Text style={videoControlStyles.buttonText}>-10s</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.playButton} onPress={handlePlayPause}>
-              <Text style={styles.playButtonText}>{paused ? '▶' : '⏸'}</Text>
+            <TouchableOpacity style={videoControlStyles.playButton} onPress={handlePlayPause}>
+              <Text style={videoControlStyles.playButtonText}>{paused ? '▶' : '❚❚'}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} onPress={handleSeekForward}>
-              <Text style={styles.buttonText}>+10s</Text>
+            <TouchableOpacity style={videoControlStyles.button} onPress={handleSeekForward}>
+              <Text style={videoControlStyles.buttonText}>+10s</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
 
       {showControls && (
-        <View style={styles.info}>
-          <Text style={styles.infoTitle}>Tears of Steel</Text>
-          <Text style={styles.infoDescription}>
+        <View style={videoControlStyles.info}>
+          <Text style={videoControlStyles.infoTitle}>Tears of Steel</Text>
+          <Text style={videoControlStyles.infoDescription}>
             Sample video demonstrating Shaka Player with native playback
           </Text>
         </View>
@@ -170,127 +171,3 @@ export const ShakaPlayerScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
-  playerContainer: {
-    flex: 1,
-    backgroundColor: '#000',
-    position: 'relative',
-  },
-  player: {
-    width: '100%',
-    height: '100%',
-  },
-  touchOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'transparent',
-  },
-  loadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loadingText: {
-    color: '#fff',
-    marginTop: 10,
-    fontSize: 20,
-  },
-  errorOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255,0,0,0.8)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 40,
-  },
-  errorText: {
-    color: '#fff',
-    fontSize: 24,
-    textAlign: 'center',
-  },
-  controls: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: 40,
-    backgroundColor: 'rgba(26,26,26,0.9)',
-  },
-  progressContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  progressBar: {
-    flex: 1,
-    height: 8,
-    backgroundColor: '#444',
-    marginHorizontal: 20,
-    borderRadius: 4,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#1e90ff',
-  },
-  timeText: {
-    color: '#fff',
-    fontSize: 18,
-    width: 80,
-    textAlign: 'center',
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    backgroundColor: '#333',
-    borderRadius: 8,
-    marginHorizontal: 15,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  playButton: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#1e90ff',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 15,
-  },
-  playButtonText: {
-    color: '#fff',
-    fontSize: 32,
-  },
-  info: {
-    position: 'absolute',
-    top: 40,
-    left: 40,
-    right: 40,
-    padding: 30,
-    backgroundColor: 'rgba(26,26,26,0.8)',
-    borderRadius: 8,
-  },
-  infoTitle: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  infoDescription: {
-    color: '#aaa',
-    fontSize: 18,
-    lineHeight: 24,
-  },
-});
